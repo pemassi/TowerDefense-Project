@@ -6,10 +6,17 @@ import Kind.MapObject;
 import Unit.Pos;
 import Unit.Velocity;
 
+/**
+ * 
+ * Moving Object
+ * 
+ * @author kyungyoonkim
+ *
+ */
 public class MovingTowerDefenseObject extends TowerDefenseObject {
 
-	private Velocity velocity = null;
-	private int volume = 0;
+	private Velocity 	velocity 	= null;
+	private int 		volume 		= 0;
 	
 	public MovingTowerDefenseObject(Pos pos, BufferedImage image, MapObject type, Velocity velocity, int voulme) {
 		super(pos, image, type);

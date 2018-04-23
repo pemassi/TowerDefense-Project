@@ -21,24 +21,29 @@ import Unit.Pos;
 import Unit.Size;
 import util.Log;
 
-
+/**
+ * 
+ * Main Class for displaying
+ * 
+ * @author kyungyoonkim
+ *
+ */
 public class Main extends JPanel implements MouseListener {
 	
-	private static JFrame frame = null;
-	private static Main panel = null;
-	private static TowerDefenseMangager manager = null;
+	//Global
+	private static 	JFrame 					frame 	= null;
+	public static 	Main 					panel 	= null;
+	private static 	TowerDefenseMangager 	manager = null;
 	
-	private static JLabel lb_life = null;
-	
+	//Instance
 	private boolean isMouseInScreen = false;
 	
 	@Override
 	public void paint(Graphics g){
 		super.paint(g);
 		try
-		{		
-			//Log.d("Main#paint() called");
-			
+		{
+			//Draw a frame
 			if(isMouseInScreen)	manager.update(g, panel.getMousePosition());	
 			else manager.update(g, null);	
 			
@@ -52,19 +57,17 @@ public class Main extends JPanel implements MouseListener {
 
 	public static void main (String [] args){
 		
+		//Create Manager Class Object
 		manager = new TowerDefenseMangager(screenupdate);
+		
+		//Set Map
 		manager.setMap(MapSoruceType.MAP_2);	
 		
+		//Get Map real size
 		Size screenSize = manager.getScreenSize();
 		
+		//Create window
 		frame = new JFrame("Tower Defense");
-
-		
-		//Add components
-		lb_life = new JLabel("Life : 30", JLabel.RIGHT);
-	
-		frame.add(lb_life);
-		
 		
 		//Add panel
 		panel = new Main();
@@ -74,63 +77,60 @@ public class Main extends JPanel implements MouseListener {
 		frame.setResizable(false);
 		frame.setVisible(true);
 		
+		JButton button = new JButton("Start Game!");
+		
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//Start Game
+				manager.start();
+				
+				button.setVisible(false);
+				
+			}
+		});
+		
+		frame.setLayout(null);
+		panel.setLayout(null);
+		
+		button.setBounds(screenSize.getWidth()- 150, screenSize.getHeigth() - 100, 130, 50);
+		panel.add(button);
 		
 		
-		
-		
+		//Add event listener
 		panel.addMouseListener(panel);
 		
-		manager.start();
+		manager.startDrawingThread();
+		
+		
 	
 	}
 	
 	private static ScreenUpdate screenupdate = new ScreenUpdate() {
 
 		public void update() {
-			
-			//Log.d("ScreenUpdate#Update() called");
-			
+			//Update screen			
 			panel.repaint();
-			
 		}
 				
 	};
 
-
-	private static ActionListener btnListener = new ActionListener() {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			Log.d("ActionPerformed called");
-						
-			manager.putTower(TowerType.Tier1, new Pos(0, 0));
-			
-			System.out.println(((JButton) e.getSource()).getName() + " Clicked");
-			
-		}
-	};
-
-
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(MouseEvent e) {	
 		int x = e.getX();
 		int y = e.getY();
+		
 		Log.d("Mouse Clicked (x:" + x + "/y:" + y + ")");
 		
+		//Pass to manager where clicked
 		manager.clicked(new Pos(x,y));
-		
-		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
 		isMouseInScreen = true;
-		
-		
-		
 	}
 
 	@Override

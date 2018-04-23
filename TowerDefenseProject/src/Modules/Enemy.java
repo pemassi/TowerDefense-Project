@@ -11,14 +11,22 @@ import Unit.Direction;
 import Unit.Pos;
 import Unit.Velocity;
 
+
+/**
+ * 
+ * Enemy Class
+ * 
+ * @author kyungyoonkim
+ *
+ */
 public class Enemy extends MovingTowerDefenseObject {
 
-	private int hpMax = 0;
-	private int hpNow = 0;
-	private int money = 0;
-	private Direction direction;
-	private MapTile[][] mapTile = null;
-	private Pos	target;
+	private int 		hpMax 		= 0;
+	private int 		hpNow 		= 0;
+	private int 		money 		= 0;
+	private Direction 	direction	= Direction.Null;
+	private MapTile[][] mapTile 	= null;
+	private Pos			target;
 	
 	public Enemy(Pos pos, BufferedImage image, Velocity velocity, int hpMax, int volume, int money, MapTile[][] mapTile) {
 		super(pos, image, new MapObject(MapObjectType.Enemy), velocity, volume);

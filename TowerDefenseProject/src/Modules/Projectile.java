@@ -10,10 +10,17 @@ import Kind.ShootType;
 import Unit.Pos;
 import Unit.Velocity;
 
+/**
+ * 
+ * ProjectTile Class
+ * 
+ * @author kyungyoonkim
+ *
+ */
 public class Projectile extends MovingTowerDefenseObject {
 	
-	private int damage = 0;
-	private MovingTowerDefenseObject target;
+	private int 						damage 	= 0;
+	private MovingTowerDefenseObject 	target;
 
 	public Projectile(Pos pos, BufferedImage image, Velocity velocity, MovingTowerDefenseObject target, int damage, int volume) {
 		super(pos, image, new MapObject(MapObjectType.Projectile), velocity, volume);

@@ -1,6 +1,14 @@
 package Kind;
 
+/**
+ * 
+ * Projectile Types
+ * 
+ * @author kyungyoonkim
+ *
+ */
 public enum ShootType{
+	
 	Bullet("res/projectile/bullet.png", 5, 10, 10, 15), 
 	Fire("res/projectile/fire.png", 5, 5, 25, 15), 
 	Ice("res/projectile/ice.png", 5, 5, 10, 15), 

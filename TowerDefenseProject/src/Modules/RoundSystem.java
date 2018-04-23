@@ -2,11 +2,18 @@ package Modules;
 
 import Kind.EnemyType;
 
+/**
+ * 
+ * RoundSystem Class
+ * 
+ * @author kyungyoonkim
+ *
+ */
 public class RoundSystem {
 	
 	public enum Round {
 		
-		GameWillBeStart(0, EnemyType.Level1, 0, 2000, 100),
+		ClickStart(0, EnemyType.Level1, 0, 100, 100),
 		Round1(10, EnemyType.Level1, 1000, 5000, 100),
 		Round2(10, EnemyType.Level1, 800, 5000, 100),
 		Round3(10, EnemyType.Level2, 1000, 5000, 100),
@@ -57,7 +64,7 @@ public class RoundSystem {
 	public RoundSystem(TowerDefenseMangager manager)
 	{
 		this.manager = manager;
-		this.round = Round.GameWillBeStart;
+		this.round = Round.ClickStart;
 		this.summonedEnemy = 0;
 		this.delay = round.getEnemySummonDelay();
 	}
@@ -79,7 +86,7 @@ public class RoundSystem {
 			if(delay >= round.getBrakeTime())
 			{
 				//move next round
-				if(round == Round.GameWillBeStart) round = Round.Round1;
+				if(round == Round.ClickStart) round = Round.Round1;
 				else if(round == Round.Round1) round = Round.Round2;
 				else if(round == Round.Round2) round = Round.Round3;
 				else if(round == Round.Round3) round = Round.Round4;

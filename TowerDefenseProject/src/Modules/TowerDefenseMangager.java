@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 import Clac.Detect;
 import Kind.EnemyType;
@@ -30,7 +31,7 @@ import util.Log;
 
 /**
  * 
- * Entire Game Manager
+ * Tower Defense Entire Game Manager
  * 
  * @author kyungyoonkim
  *
@@ -38,26 +39,30 @@ import util.Log;
 public class TowerDefenseMangager {
 
 	//For user interface
-	private int money = 300;
-	private int life = 30;
-	private String status = "Game will be start place towers!";
+	private int 		money 	= 300;
+	private int 		life 	= 1;
+	private String 		status 	= "Game will be start place towers!";
 	
-	//
-	private Size screenSize = null;
-	private Size mapSize = null;
-	private MapTile[][] mapTile = null;
-	private MapObject[][] mapTower = null;
-	private ArrayList<Enemy> mapEnemy = new ArrayList<Enemy>();
-	private ArrayList<Projectile> mapProjectile = new ArrayList<Projectile>();
-	private ScreenUpdate screenUpdate = null;
-	private RoundSystem round = null;
+	//Tower Defense variables
+	private Size 					screenSize 		= null;
+	private Size		 			mapSize 		= null;
+	private MapTile[][] 			mapTile 		= null;
+	private MapObject[][] 			mapTower 		= null;
+	private ArrayList<Enemy> 		mapEnemy 		= new ArrayList<Enemy>();
+	private ArrayList<Projectile> 	mapProjectile 	= new ArrayList<Projectile>();
+	private ScreenUpdate 			screenUpdate 	= null;
+	private RoundSystem 			round 			= null;
+	private boolean					isStarted		= false;
 	
-	private UpdateThread updateThread = null;
+	//Threading
+	private UpdateThread 			updateThread 	= null;
 	
+	//Global Instance
 	private static TowerDefenseMangager instance = null; 
 	
-	public final static int TILE_SIZE = 50;
-	public final static int UPDATE_DEALY = 10;
+	//Const
+	public final static int TILE_SIZE 		= 50;
+	public final static int UPDATE_DEALY 	= 10;
 	
 	public ClickMode clickmode = ClickMode.Nothing;
 	public enum ClickMode {
@@ -84,6 +89,14 @@ public class TowerDefenseMangager {
 		this.screenUpdate = screenUpdate;
 		this.instance = this;
 		this.round = new RoundSystem(this);
+	}
+		
+	
+	public void startDrawingThread()
+	{
+		//Create Thread (for preventing freezing)
+		updateThread = new UpdateThread();
+		updateThread.start();
 	}
 	
 	public static TowerDefenseMangager getInstance()
@@ -285,6 +298,10 @@ public class TowerDefenseMangager {
 		}	
 	}
 	
+	/**
+	 * Calc Projectile is crashed
+	 * @param g
+	 */
 	private synchronized void calcProjectile(Graphics g)
 	{
 		if(mapProjectile.size() == 0) return;
@@ -436,11 +453,6 @@ public class TowerDefenseMangager {
 		//printMap();
 	}
 	
-	public void mouseOvered(Pos pos)
-	{
-		Log.i(pos.toString());
-	}
-	
 	public void clicked(Pos pos)
 	{
 		int x = (int) pos.getX();
@@ -563,6 +575,10 @@ public class TowerDefenseMangager {
 			
 	}	
 	
+	/**
+	 * Draw indicator 
+	 * @param g
+	 */
 	private synchronized void drawInfo(Graphics g)
 	{
 		int startPointX = screenSize.getWidth() - 100;
@@ -583,6 +599,10 @@ public class TowerDefenseMangager {
 		
 	}
 	
+	/**
+	 * Crate button for buying tower
+	 * @param g
+	 */
 	private synchronized void drawTowerButton(Graphics g)
 	{
 		int startPointX = 10;
@@ -618,6 +638,11 @@ public class TowerDefenseMangager {
 		}
 	}
 	
+	/**
+	 * Drawing the guide line when user put cursor on the map
+	 * @param g
+	 * @param p
+	 */
 	private synchronized void drawGuideLine(Graphics g, Point p)
 	{
 		if(p == null) return;
@@ -656,8 +681,8 @@ public class TowerDefenseMangager {
 	public synchronized void start()
 	{
 		Log.i("Game start...");
-		updateThread = new UpdateThread();
-		updateThread.start();
+		
+		isStarted = true;
 	}
 
 	/**
@@ -724,11 +749,11 @@ public class TowerDefenseMangager {
 	 * 
 	 * @param g
 	 */
-	public void update(Graphics g, Point mousePoint)
+	public synchronized void update(Graphics g, Point mousePoint)
 	{
 		//Log.d("Start updating screen");
 		
-		round.update(UPDATE_DEALY);
+		if(isStarted) round.update(UPDATE_DEALY);
 		
 		drawTile(g);
 		
@@ -748,26 +773,30 @@ public class TowerDefenseMangager {
 		
 		drawGuideLine(g, mousePoint);
 		
+		
+		if(life <= 0 && isStarted == true)
+		{
+			this.stop();
+			status = "You're lose";
+			JOptionPane.showMessageDialog(null, "You're Lose!!!");
+		}
+		
 		drawStatus(g);
-		//Log.i(mousePoint.toString());
-		
-		
-		//Log.d("Finish updaing screen");
+	}
+	
+	public void stop()
+	{
+		updateThread.finish();
+		isStarted = false;
 	}
 
 	/**
 	 * Game Process Thread
 	 * 
-	 * 
-	 *
 	 */
 	private class UpdateThread extends Thread {
 		
 		private boolean loop = true;
-		
-		public UpdateThread() {
-			
-		}
 		
 		@Override
 		public void run() {

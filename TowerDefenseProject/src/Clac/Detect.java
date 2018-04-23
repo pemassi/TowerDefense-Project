@@ -11,6 +11,10 @@ import Unit.Direction;
 import Unit.Pos;
 import Unit.Velocity;
 
+/**
+ * 
+ * 
+ */
 public class Detect {
 	
 	/**
@@ -110,6 +114,12 @@ public class Detect {
 		return target;
 	}
 
+	/**
+	 * Find near enemy block and get direction
+	 * 
+	 * @param enemy
+	 * @return
+	 */
 	public static Direction findNearEnemyBlockDirection(Enemy enemy)
 	{
 		Direction ret = Direction.Null;
@@ -137,6 +147,12 @@ public class Detect {
 	}
 	
 	
+	/**
+	 * Find near enemy block and get position
+	 * 
+	 * @param enemy
+	 * @return
+	 */
 	public static Pos findNearEnemyBlockPos(Enemy enemy)
 	{
 		
@@ -170,7 +186,12 @@ public class Detect {
 	}
 	
 	
-	
+	/**
+	 * Get map position
+	 * 
+	 * @param pos
+	 * @return
+	 */
 	private static Pos getMapPos(Pos pos)
 	{
 		int x = (int) (pos.getX() / TowerDefenseMangager.TILE_SIZE);

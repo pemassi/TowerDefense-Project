@@ -9,22 +9,18 @@ import util.Log;
 
 import static Modules.TowerDefenseMangager.TILE_SIZE;
 
+/**
+ * 
+ * Tower Object
+ * 
+ * @author kyungyoonkim
+ *
+ */
 public class TowerDefenseObject {
 
-	/**
-	 * Position of the object
-	 */
-	private Pos pos = null;
-	
-	/**
-	 * BuffereImage of the object
-	 */
-	private BufferedImage image = null;
-	
-	/**
-	 * Object Type
-	 */
-	private MapObject type = null;
+	private Pos 			pos 		= null;
+	private BufferedImage 	image 		= null;
+	private MapObject 		type 		= null;
 	
 	public TowerDefenseObject(Pos pos, BufferedImage image, MapObject type)
 	{

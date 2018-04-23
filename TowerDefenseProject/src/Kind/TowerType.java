@@ -1,5 +1,12 @@
 package Kind;
 
+/**
+ * 
+ * Tower Types
+ * 
+ * @author kyungyoonkim
+ *
+ */
 public enum TowerType {
 	
 	Tier1("res/tower/tower1.png", 500, 1000.0, ShootType.MagicBall, 500),

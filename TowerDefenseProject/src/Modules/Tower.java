@@ -12,10 +12,15 @@ import Unit.Pos;
 import Unit.Velocity;
 import util.ImageUtil;
 
+/**
+ * 
+ * Tower Class
+ * 
+ * @author kyungyoonkim
+ *
+ */
 public class Tower extends TowerDefenseObject {
-	
-	
-	//Shooting
+
 	private int 		shootRange 		= 0;
 	private double 		shootDelay 		= 0;
 	private double 		shootDelayCount = 0;

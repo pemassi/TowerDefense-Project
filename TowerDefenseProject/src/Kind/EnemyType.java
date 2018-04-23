@@ -1,5 +1,12 @@
 package Kind;
 
+/**
+ * 
+ * Enemy Types
+ * 
+ * @author kyungyoonkim
+ *
+ */
 public enum EnemyType {
 	
 	Level1("res/monster/monster1.png", 0.20, 0.20, 100, 25, 50),

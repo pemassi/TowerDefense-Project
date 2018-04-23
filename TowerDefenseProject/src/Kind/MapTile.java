@@ -1,5 +1,12 @@
 package Kind;
 
+/**
+ * 
+ * Map Tile Types
+ * 
+ * @author kyungyoonkim
+ *
+ */
 public enum MapTile {
 	User("res/tile/tile_grass_1.png"),
 	Enemy("res/tile/tile_stone_1.png");

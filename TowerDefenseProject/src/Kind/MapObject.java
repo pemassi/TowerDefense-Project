@@ -2,14 +2,21 @@ package Kind;
 
 import Extender.TowerDefenseObject;
 
+/**
+ * 
+ * Map Object
+ * 
+ * @author kyungyoonkim
+ *
+ */
 public class MapObject {
 	
 	public enum MapObjectType {
 		Enemy, Tower, Tile, Projectile;
 	}
 	
-	private MapObjectType mapObjectType;
-	private TowerDefenseObject object;
+	private MapObjectType 		mapObjectType;
+	private TowerDefenseObject 	object;
 	
 	public MapObject()
 	{
