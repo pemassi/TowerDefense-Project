@@ -40,7 +40,7 @@ public class TowerDefenseMangager {
 
 	//For user interface
 	private int 		money 	= 300;
-	private int 		life 	= 1;
+	private int 		life 	= 30;
 	private String 		status 	= "Game will be start place towers!";
 	
 	//Tower Defense variables
@@ -654,8 +654,26 @@ public class TowerDefenseMangager {
 		{
 			Pos tilePos = getClickedPos(new Pos(x, y));
 			
+			
+			if(clickmode != ClickMode.Nothing)
+			{
+				try 
+				{
+					TowerType type = clickmode.getTowerType();
+					BufferedImage image = ImageIO.read(new File(type.getImageURI()));
+					
+					g.drawImage(image, (int)(tilePos.getX() * TILE_SIZE), (int)(tilePos.getY() * TILE_SIZE), TILE_SIZE, TILE_SIZE, null);
+				} 
+				catch (IOException e) 
+				{
+
+					e.printStackTrace();
+				}				
+			}
+			
 			g.setColor(Color.BLACK);
 			g.drawRect((int)(tilePos.getX() * TILE_SIZE), (int)(tilePos.getY() * TILE_SIZE), TILE_SIZE, TILE_SIZE);
+			
 			
 		}
 		
